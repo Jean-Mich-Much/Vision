@@ -86,6 +86,9 @@ Exemple JSON interne :
   "createdAt": 1713200000,
   "updatedAt": 1713200000
 }
+
+---
+
 Propriétés
 écriture atomique (.tmp → rename())
 

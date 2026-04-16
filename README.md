@@ -228,7 +228,7 @@ zéro dépendance
 <a name="english-version"></a>🇬🇧 English Version
 <div align="center">
 
-Back to 🇫🇷 French version
+English version
 </div>
 
 🚀 Vision - Natural Data Engine (NDE)

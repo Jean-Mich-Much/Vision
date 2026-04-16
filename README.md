@@ -68,7 +68,7 @@ VISION1
 ⟪¦<base64(json)>¦⟫
 ⟪⇒¦⇐⟫
 
-Code
+
 
 Exemple JSON interne :
 
@@ -93,7 +93,7 @@ UTF‑8 strict
 4. Sharding
 Chaque cellule est stockée dans :
 
-Code
+
 /vision/data/YYYYMMDD/id.vr
 Le préfixe de l’ID détermine automatiquement le shard.
 
@@ -236,7 +236,7 @@ Modules read Wave and react locally.
 No prediction. No automatic cascade.
 
 2. File Architecture
-Code
+
 /vision/
   -  vision.php
    - Vision_UniCell.php
@@ -251,7 +251,7 @@ Code
             id_unique.vr
 
 3. UniCell - .vr Format
-Code
+
 VISION1
 ⟪¦<base64(json)>¦⟫
 ⟪⇒¦⇐⟫
@@ -270,7 +270,7 @@ json
 }
 
 4. Sharding
-Code
+
 /vision/data/YYYYMMDD/id.vr
 
 5. Wave - Global State

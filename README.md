@@ -2,6 +2,8 @@
 
 ### 🇫🇷 Documentation française - [🇬🇧 English version below](#english-version)
 
+**📄 Une documentation complète est disponible ici : https://iactu.info/vision/docs/vision.html**  
+
 </div>
 
 # 🚀 Vision - Natural Data Engine (NDE)
@@ -191,6 +193,8 @@ Aucune orchestration lourde.
 	 - zéro dépendance
 
 <a name="english-version"><div align="center">🇬🇧 English Version</div></a>
+
+**📄 A complete English documentation is available here: https://iactu.info/vision/docs/vision_english.html**
 
 🚀 Vision - Natural Data Engine (NDE)
 Vision is a Natural Data Engine (NDE).

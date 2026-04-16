@@ -122,20 +122,20 @@ Aucune orchestration lourde.
  - vision_autoclean.php	 - maintenance autonome
 
 # 7. API Vision (complète)
-Fonction	 - Description	 - Signature
-create	 - créer une cellule	 - create(array $data, array $relations=[]): string
-read	 - lire une cellule	 - read(string $id): ?array
-update	 - mettre à jour	 - update(string $id, array $data, array $relations=[]): bool
-delete	 - supprimer	 - delete(string $id): bool
-exists	 - vérifier existence	 - exists(string $id): bool
-relations	 - lire relations	 - relations(string $id): array
-link	 - créer relation	 - link(string $id, string $targetId, int $niveau): bool
-unlink	 - supprimer relation	 - unlink(string $id, string $targetId): bool
-graph	 - graphe autour d’une cellule	 - graph(string $id): array
-find	 - recherche personnalisée	 - find(callable $filter): array
-count	 - nombre total	 - count(): int
-stats	 - statistiques	 - stats(): array
-clean	 - maintenance	 - clean(): void
+ - Fonction	 - Description	 - Signature
+	 - create	 - créer une cellule	 - create(array $data, array $relations=[]): string
+	 - read	 - lire une cellule	 - read(string $id): ?array
+	 - update	 - mettre à jour	 - update(string $id, array $data, array $relations=[]): bool
+	 - delete	 - supprimer	 - delete(string $id): bool
+	 - exists	 - vérifier existence	 - exists(string $id): bool
+	 - relations	 - lire relations	 - relations(string $id): array
+	 - link	 - créer relation	 - link(string $id, string $targetId, int $niveau): bool
+	 - unlink	 - supprimer relation	 - unlink(string $id, string $targetId): bool
+	 - graph	 - graphe autour d’une cellule	 - graph(string $id): array
+	 - find	 - recherche personnalisée	 - find(callable $filter): array
+	 - count	 - nombre total	 - count(): int
+	 - stats	 - statistiques	 - stats(): array
+	 - clean	 - maintenance	 - clean(): void
 
 # 8. Exemples
  - Forum : 
@@ -284,20 +284,20 @@ json
  - vision_autoclean.php	 - maintenance
 
 # 7. Vision API (Complete)
-Function	 - Description	 - Signature
-create	 - create a cell	 - create(array $data, array $relations=[]): string
-read	 - read a cell	 - read(string $id): ?array
-update	 - update a cell	 - update(string $id, array $data, array $relations=[]): bool
-delete	 - delete a cell	 - delete(string $id): bool
-exists	 - check existence	 - exists(string $id): bool
-relations	 - get relations	 - relations(string $id): array
-link	 - create relation	 - link(string $id, string $targetId, int $level): bool
-unlink	 - remove relation	 - unlink(string $id, string $targetId): bool
-graph	 - build graph	 - graph(string $id): array
-find	 - custom search	 - find(callable $filter): array
-count	 - total cells	 - count(): int
-stats	 - global stats	 - stats(): array
-clean	 - maintenance	 - clean(): void
+ - Function	 - Description	 - Signature
+	 - create	 - create a cell	 - create(array $data, array $relations=[]): string
+	 - read	 - read a cell	 - read(string $id): ?array
+	 - update	 - update a cell	 - update(string $id, array $data, array $relations=[]): bool
+	 - delete	 - delete a cell	 - delete(string $id): bool
+	 - exists	 - check existence	 - exists(string $id): bool
+	 - relations	 - get relations	 - relations(string $id): array
+	 - link	 - create relation	 - link(string $id, string $targetId, int $level): bool
+	 - unlink	 - remove relation	 - unlink(string $id, string $targetId): bool
+	 - graph	 - build graph	 - graph(string $id): array
+	 - find	 - custom search	 - find(callable $filter): array
+	 - count	 - total cells	 - count(): int
+	 - stats	 - global stats	 - stats(): array
+	 - clean	 - maintenance	 - clean(): void
 
 # 8. Usage Examples
  - Forum : 

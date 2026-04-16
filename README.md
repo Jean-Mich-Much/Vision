@@ -198,11 +198,7 @@ prévisibilité
 lisibilité humaine
 zéro dépendance
 
-<a name="english-version"></a>🇬🇧 English Version
-<div align="center">
-
-English version
-</div>
+<a name="english-version"></a><div align="center">🇬🇧 English Version</div>
 
 🚀 Vision - Natural Data Engine (NDE)
 Vision is a Natural Data Engine (NDE).

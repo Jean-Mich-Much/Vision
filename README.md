@@ -48,14 +48,13 @@ Aucune prédiction. Aucune cascade automatique.
 # 2. Architecture des fichiers
 
 /vision/
-vision.php              → point d’entrée
-Vision_UniCell.php      → stockage UniCell (.vr) + sharding
-Vision_API.php          → API Vision complète
-
-vision_wave.php         → état global Wave
-vision_lock.php         → lock global non bloquant
-vision_worker.php       → multitâche (Fibers)
-vision_autoclean.php    → maintenance autonome
+ - vision.php              → point d’entrée
+ - Vision_UniCell.php      → stockage UniCell (.vr) + sharding
+ - Vision_API.php          → API Vision complète
+ - vision_wave.php         → état global Wave
+ - vision_lock.php         → lock global non bloquant
+ - vision_worker.php       → multitâche (Fibers)
+ - vision_autoclean.php    → maintenance autonome
 
 /data/
 YYYYMMDD/

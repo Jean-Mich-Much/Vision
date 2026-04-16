@@ -90,14 +90,14 @@ aucune corruption possible
 format déterministe
 UTF‑8 strict
 
-4. Sharding
+# 4. Sharding
 Chaque cellule est stockée dans :
 
 
 /vision/data/YYYYMMDD/id.vr
 Le préfixe de l’ID détermine automatiquement le shard.
 
-5. Wave - état global
+# 5. Wave - état global
 json
 {
   "charge": 0.12,
@@ -111,7 +111,7 @@ json
 Wave est lu par tous les modules.
 Aucune orchestration lourde.
 
-6. Modules internes
+# 6. Modules internes
 Module	Rôle
 vision.php	orchestrateur, logs silencieux
 Vision_UniCell.php	stockage .vr, sharding
@@ -121,7 +121,7 @@ vision_lock.php	lock non bloquant
 vision_worker.php	multitâche (Fibers)
 vision_autoclean.php	maintenance autonome
 
-7. API Vision (complète)
+# 7. API Vision (complète)
 Fonction	Description	Signature
 create	créer une cellule	create(array $data, array $relations=[]): string
 read	lire une cellule	read(string $id): ?array
@@ -137,7 +137,7 @@ count	nombre total	count(): int
 stats	statistiques	stats(): array
 clean	maintenance	clean(): void
 
-8. Exemples
+# 8. Exemples
  - Forum : 
  $topic = Vision_API::create(['title' => 'Bonjour']); 
  $post  = Vision_API::create(['text' => 'Salut'], [['id'=>$topic,'niveau'=>1]]); 
@@ -147,7 +147,7 @@ clean	maintenance	clean(): void
  $page = Vision_API::create(['title' => 'Accueil']); 
  $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]); 
 
-9. Sécurité & robustesse
+# 9. Sécurité & robustesse
 écriture atomique
 aucune corruption possible
 crash‑safe
@@ -156,7 +156,7 @@ aucune cascade automatique
 aucune prédiction
 logs silencieux
 
-10. Limites explicites
+# 10. Limites explicites
 Vision ne fera jamais :
 transactions multi‑cellules
 triggers
@@ -166,7 +166,7 @@ analyse du contenu
 index secondaires automatiques
 logique métier
 
-11. Pourquoi Vision ?
+# 11. Pourquoi Vision ?
 Comparé à SQL
 pas de tables
 pas de schéma
@@ -203,7 +203,7 @@ Wave - a minimal global state coordinating the engine
 Vision does not predict, cascade or restructure anything automatically.
 It gives developers full control, while remaining stable, simple and predictable.
 
-1. Introduction
+# 1. Introduction
 Vision is a lightweight data engine for PHP 8.3+, UTF‑8 LF, with zero dependencies.
 It naturally reconstructs complex structures:
 forums
@@ -223,7 +223,7 @@ Wave - minimal global state
 Modules read Wave and react locally.
 No prediction. No automatic cascade.
 
-2. File Architecture
+# 2. File Architecture
 
 /vision/
   -  vision.php
@@ -238,7 +238,7 @@ No prediction. No automatic cascade.
         YYYYMMDD/
             id_unique.vr
 
-3. UniCell - .vr Format
+# 3. UniCell - .vr Format
 
 VISION1
 ⟪¦<base64(json)>¦⟫
@@ -257,11 +257,11 @@ json
   "updatedAt": 1713200000
 }
 
-4. Sharding
+# 4. Sharding
 
 /vision/data/YYYYMMDD/id.vr
 
-5. Wave - Global State
+# 5. Wave - Global State
 json
 {
   "charge": 0.12,
@@ -273,7 +273,7 @@ json
   "op": "none"
 }
 
-6. Internal Modules
+# 6. Internal Modules
 Module	Role
 vision.php	entry point
 Vision_UniCell.php	.vr storage
@@ -283,7 +283,7 @@ vision_lock.php	non‑blocking lock
 vision_worker.php	async tasks
 vision_autoclean.php	maintenance
 
-7. Vision API (Complete)
+# 7. Vision API (Complete)
 Function	Description	Signature
 create	create a cell	create(array $data, array $relations=[]): string
 read	read a cell	read(string $id): ?array
@@ -299,7 +299,7 @@ count	total cells	count(): int
 stats	global stats	stats(): array
 clean	maintenance	clean(): void
 
-8. Usage Examples
+# 8. Usage Examples
  - Forum : 
  $topic = Vision_API::create(['title' => 'Hello']); 
  $post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]); 
@@ -314,7 +314,7 @@ clean	maintenance	clean(): void
  $france = Vision_API::create(['name'=>'France']); 
  Vision_API::link($paris, $france, 1); 
 
-9. Security & Robustness
+# 9. Security & Robustness
 atomic writes
 no corruption
 crash‑safe
@@ -323,7 +323,7 @@ no automatic cascade
 no prediction
 silent logs
 
-10. Explicit Limitations
+# 10. Explicit Limitations
 Vision will never implement:
 multi‑cell transactions
 triggers
@@ -333,7 +333,7 @@ content analysis
 automatic secondary indexes
 business logic
 
-11. Why Vision?
+# 11. Why Vision?
 Compared to SQL
 no tables
 no schema

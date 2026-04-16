@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vision : doc</title>
+<style>
+body{
+ margin:0;
+ padding:0;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ background:#050816;
+ color:#f5f7ff;
+ font-size:16px;
+ line-height:22px;
+}
+.wrapper{
+ min-height:100vh;
+ display:flex;
+ flex-direction:column;
+}
+.main{
+ flex:1;
+ display:flex;
+ flex-direction:column;
+ padding:24px;
+ max-width:1100px;
+ margin:0 auto;
+}
+h1,h2,h3,h4{
+ margin:0 0 12px 0;
+ line-height:26px;
+}
+h1{
+ font-size:22px;
+}
+h2{
+ font-size:19px;
+ margin-top:28px;
+}
+h3{
+ font-size:17px;
+ margin-top:18px;
+}
+h4{
+ font-size:15px;
+ margin-top:14px;
+}
+p{
+ margin:0 0 10px 0;
+}
+section{
+ margin-bottom:26px;
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:16px;
+}
+.card{
+ background:linear-gradient(135deg,#111827,#020617);
+ border-radius:10px;
+ padding:16px;
+ border:1px solid rgba(148,163,184,0.4);
+}
+table{
+ width:100%;
+ border-collapse:collapse;
+ margin-top:10px;
+}
+th,td{
+ border:1px solid rgba(148,163,184,0.4);
+ padding:8px;
+ font-size:14px;
+ line-height:20px;
+}
+th{
+ background:#020617;
+}
+code{
+ background:#020617;
+ padding:2px 4px;
+ border-radius:4px;
+ font-size:13px;
+}
+pre{
+ background:#020617;
+ padding:12px;
+ border-radius:8px;
+ overflow:auto;
+ font-size:14px;
+ line-height:20px;
+}
+footer{
+ padding:16px 24px;
+ text-align:center;
+ font-size:14px;
+ line-height:20px;
+ color:#cbd5f5;
+ border-top:1px solid rgba(148,163,184,0.4);
+ background:#020617;
+}
+@media (max-width:700px){
+ .main{
+  padding:16px;
+ }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<main class="main">
+
+<header>
+<h1>🚀 Vision - Natural Data Engine (NDE)</h1>
+<p><strong>Vision est un moteur de données naturel (NDE : Natural Data Engine).</strong><br>
+Un NDE est une évolution des bases de données traditionnelles : il stocke, lit et relie des données comme une base classique, mais il le fait <strong>sans schéma</strong>, <strong>sans tables</strong>, <strong>sans SQL</strong> et <strong>sans structure imposée</strong>.<br><br>
+Vision repose sur deux fondations simples : <strong>UniCell</strong>, où chaque donnée est une cellule autonome stockée dans un fichier <code>.vr</code>, et <strong>Wave</strong>, un état global minimal qui coordonne le moteur.<br><br>
+Contrairement aux bases de données classiques, Vision ne prédit rien, ne cascade rien automatiquement et ne restructure jamais vos données.  
+Il vous laisse <strong>le contrôle total</strong>, tout en garantissant une stabilité et une prévisibilité maximales.</p>
+</header>
+
+<section>
+<h2>1. Introduction</h2>
+<p>Vision est un moteur de données artisanal en PHP 8.3+, UTF‑8 LF, sans dépendances.  
+Il est autonome, simple, stable et prévisible. Il reconstruit naturellement des structures complexes&nbsp;: forums, CMS, knowledge graphs, présentations, données scientifiques, etc.</p>
+
+<ul>
+<li><strong>UniCell</strong> - chaque donnée est une cellule autonome stockée dans un fichier <code>.vr</code>.  
+Les relations utilisent des niveaux simples :
+<ul>
+<li>0 = latéral</li>
+<li>1 = interne directe</li>
+<li>2 = interne profonde</li>
+<li>3+ = cas rares</li>
+</ul>
+</li>
+<li><strong>Wave</strong> - un état global minimal, mis à jour en continu.  
+Chaque module lit Wave et réagit localement.  
+Aucune cascade. Aucune prédiction.</li>
+</ul>
+</section>
+
+<section>
+<h2>2. Architecture des fichiers</h2>
+<pre><code>/vision/
+    vision.php              → point d’entrée (charge les modules)
+    Vision_UniCell.php      → stockage UniCell (.vr) + sharding
+    Vision_API.php          → API Vision complète
+
+    vision_wave.php         → état global Wave
+    vision_lock.php         → lock global non bloquant
+    vision_worker.php       → multitâche asynchrone (Fibers)
+    vision_autoclean.php    → maintenance autonome
+
+    /data/
+        YYYYMMDD/
+            id_unique.vr    → 1 fichier = 1 cellule
+</code></pre>
+</section>
+
+<section>
+<h2>3. UniCell - format .vr</h2>
+<p>Chaque cellule est stockée dans un fichier <code>.vr</code> :</p>
+<pre><code>VISION1
+⟪¦&lt;base64(json)&gt;¦⟫
+⟪⇒¦⇐⟫
+</code></pre>
+
+<p>Le JSON interne contient :</p>
+<pre><code>{
+  "id": "20260416_ab12cd34ef56",
+  "data": {...},
+  "relations": [
+      {"id": "xxx", "niveau": 1},
+      {"id": "yyy", "niveau": 0}
+  ],
+  "createdAt": 1713200000,
+  "updatedAt": 1713200000
+}
+</code></pre>
+
+<p>Caractéristiques :</p>
+<ul>
+<li>atomicité stricte : <code>.tmp → flush → rename()</code></li>
+<li>aucune écriture partielle</li>
+<li>validation par marqueur final</li>
+<li>format déterministe</li>
+<li>UTF‑8 LF</li>
+</ul>
+</section>
+
+<section>
+<h2>4. Sharding</h2>
+<p>Chaque cellule est stockée dans :</p>
+<pre><code>/vision/data/YYYYMMDD/id.vr
+</code></pre>
+<p>Le préfixe de l’ID (YYYYMMDD) détermine automatiquement le shard.  
+Les tests multi‑shards garantissent que les relations, graphes et suppressions en cascade restent cohérents sur plusieurs jours.</p>
+</section>
+
+<section>
+<h2>5. Wave - état global</h2>
+<p>Wave est un tableau associatif simple :</p>
+<pre><code>[
+  'charge'   => float,   // 0.0 → 1.0
+  'priorite' => string,  // read | write | clean | idle
+  'pression' => string,  // low | medium | high
+  'lock'     => string,  // free | busy
+  'ram'      => string,  // stable | high | critical
+  'disk'     => string,  // idle | busy
+  'op'       => string   // type d’opération
+]
+</code></pre>
+<p>Chaque module lit Wave et réagit localement.  
+Aucune orchestration lourde, aucune prédiction, aucune cascade globale.</p>
+</section>
+
+<section>
+<h2>6. Modules internes</h2>
+<div class="grid">
+
+<div class="card">
+<h3>vision.php</h3>
+<ul>
+<li>point d’entrée</li>
+<li>charge tous les modules internes</li>
+<li>log silencieux (vision.log)</li>
+<li>aucune sortie navigateur</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Vision_UniCell.php</h3>
+<ul>
+<li>gestion des fichiers <code>.vr</code></li>
+<li>lecture / écriture atomique</li>
+<li>validation du format</li>
+<li>sharding par date (YYYYMMDD)</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Vision_API.php</h3>
+<ul>
+<li>API publique complète</li>
+<li>CRUD</li>
+<li>relations</li>
+<li>graphes</li>
+<li>recherche</li>
+<li>statistiques</li>
+<li>maintenance</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>vision_wave.php</h3>
+<ul>
+<li>état global Wave</li>
+<li>charge, pression, RAM, disque</li>
+<li>priorité des opérations</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>vision_lock.php</h3>
+<ul>
+<li>lock global non bloquant</li>
+<li>file interne minimale</li>
+<li>atomicité stricte</li>
+<li>aucun deadlock possible</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>vision_worker.php</h3>
+<ul>
+<li>multitâche asynchrone (Fibers)</li>
+<li>aucune attente active</li>
+<li>aucune boucle bloquante</li>
+<li>exécution de tâches internes</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>vision_autoclean.php</h3>
+<ul>
+<li>maintenance autonome</li>
+<li>ne s’exécute que si :
+<code>disk = idle</code>, <code>lock = free</code>, <code>charge &lt; 0.5</code></li>
+<li>nettoyage des fichiers orphelins ou corrompus</li>
+</ul>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>7. API Vision (complète)</h2>
+<p>L’API Vision est exposée via <code>Vision_API.php</code>.  
+Les fonctions suivantes sont disponibles en mode statique (ex. <code>Vision_API::create(...)</code>).</p>
+
+<table>
+<thead>
+<tr>
+<th>Fonction</th>
+<th>Description</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td><strong>create</strong></td>
+<td>Créer une cellule</td>
+<td><code>create(array $data, array $relations = []): string</code></td>
+</tr>
+
+<tr>
+<td><strong>read</strong></td>
+<td>Lire une cellule</td>
+<td><code>read(string $id): ?array</code></td>
+</tr>
+
+<tr>
+<td><strong>update</strong></td>
+<td>Mettre à jour une cellule</td>
+<td><code>update(string $id, array $data, array $relations = []): bool</code></td>
+</tr>
+
+<tr>
+<td><strong>delete</strong></td>
+<td>Supprimer une cellule</td>
+<td><code>delete(string $id): bool</code></td>
+</tr>
+
+<tr>
+<td><strong>exists</strong></td>
+<td>Vérifier l’existence d’une cellule</td>
+<td><code>exists(string $id): bool</code></td>
+</tr>
+
+<tr>
+<td><strong>relations</strong></td>
+<td>Lire les relations d’une cellule</td>
+<td><code>relations(string $id): array</code></td>
+</tr>
+
+<tr>
+<td><strong>link</strong></td>
+<td>Créer une relation</td>
+<td><code>link(string $id, string $targetId, int $niveau): bool</code></td>
+</tr>
+
+<tr>
+<td><strong>unlink</strong></td>
+<td>Supprimer une relation</td>
+<td><code>unlink(string $id, string $targetId): bool</code></td>
+</tr>
+
+<tr>
+<td><strong>graph</strong></td>
+<td>Construire un graphe autour d’une cellule</td>
+<td><code>graph(string $id): array</code></td>
+</tr>
+
+<tr>
+<td><strong>find</strong></td>
+<td>Recherche personnalisée (filtre PHP)</td>
+<td><code>find(callable $filter): array</code></td>
+</tr>
+
+<tr>
+<td><strong>count</strong></td>
+<td>Nombre total de cellules</td>
+<td><code>count(): int</code></td>
+</tr>
+
+<tr>
+<td><strong>stats</strong></td>
+<td>Statistiques globales (taille, shards, etc.)</td>
+<td><code>stats(): array</code></td>
+</tr>
+
+<tr>
+<td><strong>clean</strong></td>
+<td>Maintenance explicite</td>
+<td><code>clean(): void</code></td>
+</tr>
+
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>8. Exemples d’utilisation</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Forum</h3>
+<pre><code>$topic = Vision_API::create(['title' => 'Bonjour']);
+
+$post1 = Vision_API::create(
+    ['text' => 'Salut'],
+    [['id' => $topic, 'niveau' => 1]]
+);
+
+$post2 = Vision_API::create(
+    ['text' => 'Bienvenue'],
+    [['id' => $topic, 'niveau' => 1]]
+);
+
+$reply = Vision_API::create(
+    ['text' => 'Merci'],
+    [['id' => $post1, 'niveau' => 1]]
+);
+</code></pre>
+</div>
+
+<div class="card">
+<h3>CMS</h3>
+<pre><code>$page = Vision_API::create(['title' => 'Accueil']);
+
+$section = Vision_API::create(
+    ['title' => 'Intro'],
+    [['id' => $page, 'niveau' => 1]]
+);
+
+$block = Vision_API::create(
+    ['text' => 'Bienvenue'],
+    [['id' => $section, 'niveau' => 1]]
+);
+</code></pre>
+</div>
+
+<div class="card">
+<h3>Knowledge Graph</h3>
+<pre><code>$paris  = Vision_API::create(['name' => 'Paris']);
+$france = Vision_API::create(['name' => 'France']);
+
+Vision_API::link($paris, $france, 1);
+</code></pre>
+</div>
+
+<div class="card">
+<h3>Recherche personnalisée</h3>
+<pre><code>$results = Vision_API::find(function(array $cell) {
+    return isset($cell['data']['title'])
+        && str_contains($cell['data']['title'], 'Bonjour');
+});
+</code></pre>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>9. Sécurité & robustesse</h2>
+<ul>
+<li>atomicité stricte (écriture complète, <code>.tmp</code> puis <code>rename()</code>)</li>
+<li>aucune écriture partielle</li>
+<li>aucune corruption possible (marqueur final, format déterministe)</li>
+<li>crash‑safe</li>
+<li>lock global non bloquant</li>
+<li>aucune cascade automatique</li>
+<li>aucune prédiction</li>
+<li>aucune sortie navigateur</li>
+<li>log silencieux (fichier dédié)</li>
+</ul>
+</section>
+
+<section>
+<h2>10. Limites explicites</h2>
+<p>Vision ne fera jamais :</p>
+<ul>
+<li>transactions multi‑cellules</li>
+<li>triggers</li>
+<li>prédictions</li>
+<li>réorganisation automatique globale</li>
+<li>analyse du contenu</li>
+<li>inférence de schéma</li>
+<li>hiérarchie forcée</li>
+<li>index secondaires automatiques</li>
+<li>logique métier</li>
+</ul>
+<p>Vision reste volontairement minimaliste et prévisible.  
+Toute logique métier, tout modèle de données et toute hiérarchie restent sous votre contrôle.</p>
+</section>
+
+<section>
+<h2>11. Pourquoi Vision&nbsp;?</h2>
+<p>Vision n’est pas une base SQL, ni un document store, ni une base orientée graphe classique.  
+C’est un moteur de données naturel (NDE) conçu pour offrir une alternative simple, robuste et prévisible aux systèmes traditionnels.</p>
+
+<div class="grid">
+
+<div class="card">
+<h3>Comparé à une base SQL</h3>
+<ul>
+<li>aucune table, aucun schéma, aucune migration</li>
+<li>aucune jointure complexe</li>
+<li>stockage direct en fichiers</li>
+<li>relations simples et explicites</li>
+<li>lecture ultra‑rapide (RAM‑first)</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Comparé à un document store</h3>
+<ul>
+<li>chaque cellule est autonome (UniCell)</li>
+<li>relations natives (pas d’embed arbitraire)</li>
+<li>sharding naturel par date</li>
+<li>format déterministe et auto‑validé</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Comparé à une base orientée graphe</h3>
+<ul>
+<li>relations simples (niveau 0, 1, 2…)</li>
+<li>navigation multi‑shards</li>
+<li>résistance aux cycles</li>
+<li>aucune réécriture globale du graphe</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Ce que Vision apporte</h3>
+<ul>
+<li>un moteur ultra‑simple à comprendre</li>
+<li>aucune dépendance, aucun serveur</li>
+<li>écriture atomique, crash‑safe</li>
+<li>aucune corruption possible</li>
+<li>structure lisible par un humain</li>
+<li>parfait pour forums, CMS, notes, graphes, knowledge bases</li>
+</ul>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>12. Conclusion</h2>
+<p>Vision est un moteur naturel, simple, stable et prévisible.  
+UniCell fournit l’universalité.  
+Wave fournit la cohérence.  
+Les modules fournissent la dynamique.</p>
+
+<p>Vision n’est pas une base de données traditionnelle.  
+Vision est une architecture vivante, conçue pour les développeurs qui veulent garder le contrôle tout en bénéficiant d’un moteur robuste et moderne.</p>
+</section>
+
+</main>
+
+<footer>
+Jean-Michel G, Bordeaux, France, iactu.info depuis 2003
+</footer>
+
+</div>
+</body>
+</html>

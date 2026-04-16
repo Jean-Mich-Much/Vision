@@ -1,0 +1,30 @@
+<?php
+
+/* vision_autoclean.php */
+
+final class VisionAutoclean
+{private static bool $running=false;
+
+public static function run(): void
+{if(self::$running) return;
+self::$running=true;
+$wave=VisionWave::get();
+if($wave['disk']!=='idle'||$wave['lock']!=='free'||$wave['charge']>=0.5)
+{self::$running=false;return;}
+VisionLock::acquire(function() use($wave)
+{$now=VisionWave::get();
+if($now['disk']!=='idle'||$now['lock']!=='free'||$now['charge']>=0.5)return;
+self::clean();});
+self::$running=false;}
+
+private static function clean(): void
+{$dir=__DIR__.'/data';
+if(!is_dir($dir))return;
+$files=scandir($dir);
+if(!is_array($files))return;
+foreach($files as $f)
+{if($f==='.'||$f==='..')continue;
+$path=$dir.'/'.$f;
+if(!is_file($path))continue;
+$size=filesize($path);
+if($size===0)unlink($path);}}}

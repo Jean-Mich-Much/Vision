@@ -89,11 +89,8 @@ json
 
 Propriétés
 écriture atomique (.tmp → rename())
-
 aucune corruption possible
-
 format déterministe
-
 UTF‑8 strict
 
 4. Sharding
@@ -149,80 +146,59 @@ php
 $topic = Vision_API::create(['title' => 'Bonjour']);
 $post  = Vision_API::create(['text' => 'Salut'], [['id'=>$topic,'niveau'=>1]]);
 $reply = Vision_API::create(['text' => 'Merci'], [['id'=>$post,'niveau'=>1]]);
+
 CMS
 php
 $page = Vision_API::create(['title' => 'Accueil']);
 $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]);
+
 Knowledge Graph
 php
 $paris = Vision_API::create(['name'=>'Paris']);
 $france = Vision_API::create(['name'=>'France']);
 Vision_API::link($paris, $france, 1);
+
 9. Sécurité & robustesse
 écriture atomique
-
 aucune corruption possible
-
 crash‑safe
-
 lock non bloquant
-
 aucune cascade automatique
-
 aucune prédiction
-
 logs silencieux
 
 10. Limites explicites
 Vision ne fera jamais :
-
 transactions multi‑cellules
-
 triggers
-
 prédictions
-
 réorganisation globale
-
 analyse du contenu
-
 index secondaires automatiques
-
 logique métier
 
 11. Pourquoi Vision ?
 Comparé à SQL
 pas de tables
-
 pas de schéma
-
 pas de migrations
-
 pas de jointures complexes
 
 Comparé à un document store
 cellules autonomes
-
 relations natives
-
 sharding naturel
 
 Comparé à une base graphe
 relations simples
-
 navigation multi‑shards
-
 résistance aux cycles
 
 Ce que Vision apporte
 simplicité
-
 robustesse
-
 prévisibilité
-
 lisibilité humaine
-
 zéro dépendance
 
 <a name="english-version"></a>🇬🇧 English Version
@@ -236,9 +212,7 @@ Vision is a Natural Data Engine (NDE).
 An NDE is an evolution of traditional databases: it stores, reads and links data like a classic DB, but without SQL, without schema, without tables, and without imposed structure.
 
 Vision is built on two foundations:
-
 UniCell - each piece of data is an autonomous cell stored in a .vr file
-
 Wave - a minimal global state coordinating the engine
 
 Vision does not predict, cascade or restructure anything automatically.
@@ -247,26 +221,17 @@ It gives developers full control, while remaining stable, simple and predictable
 1. Introduction
 Vision is a lightweight data engine for PHP 8.3+, UTF‑8 LF, with zero dependencies.
 It naturally reconstructs complex structures:
-
 forums
-
 CMS
-
 knowledge graphs
-
 note systems
-
 presentations
-
 scientific datasets
 
 UniCell - relation levels
 0: lateral
-
 1: direct internal
-
 2: deep internal
-
 3+: rare cases
 
 Wave - minimal global state
@@ -288,6 +253,7 @@ Code
     /data/
         YYYYMMDD/
             id_unique.vr
+
 3. UniCell - .vr Format
 Code
 VISION1
@@ -306,9 +272,11 @@ json
   "createdAt": 1713200000,
   "updatedAt": 1713200000
 }
+
 4. Sharding
 Code
 /vision/data/YYYYMMDD/id.vr
+
 5. Wave - Global State
 json
 {
@@ -320,6 +288,7 @@ json
   "disk": "idle",
   "op": "none"
 }
+
 6. Internal Modules
 Module	Role
 vision.php	entry point
@@ -352,78 +321,57 @@ php
 $topic = Vision_API::create(['title' => 'Hello']);
 $post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]);
 $reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'level'=>1]]);
+
 CMS
 php
 $page = Vision_API::create(['title' => 'Home']);
 $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'level'=>1]]);
+
 Knowledge Graph
 php
 $paris = Vision_API::create(['name'=>'Paris']);
 $france = Vision_API::create(['name'=>'France']);
 Vision_API::link($paris, $france, 1);
+
 9. Security & Robustness
 atomic writes
-
 no corruption
-
 crash‑safe
-
 non‑blocking lock
-
 no automatic cascade
-
 no prediction
-
 silent logs
 
 10. Explicit Limitations
 Vision will never implement:
-
 multi‑cell transactions
-
 triggers
-
 prediction
-
 global reorganization
-
 content analysis
-
 automatic secondary indexes
-
 business logic
 
 11. Why Vision?
 Compared to SQL
 no tables
-
 no schema
-
 no migrations
-
 no joins
 
 Compared to document stores
 autonomous cells
-
 native relations
-
 natural sharding
 
 Compared to graph databases
 simple relation levels
-
 multi‑shard navigation
-
 cycle‑resistant
 
 What Vision provides
 simplicity
-
 robustness
-
 predictability
-
 human‑readable structure
-
 zero dependencies

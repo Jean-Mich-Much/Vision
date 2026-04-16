@@ -112,40 +112,40 @@ Wave est lu par tous les modules.
 Aucune orchestration lourde.
 
 # 6. Modules internes
- - Module	Rôle
- - vision.php	orchestrateur, logs silencieux
- - Vision_UniCell.php	stockage .vr, sharding
- - Vision_API.php	API publique complète
- - vision_wave.php	état global
- - vision_lock.php	lock non bloquant
- - vision_worker.php	multitâche (Fibers)
- - vision_autoclean.php	maintenance autonome
+ - Module	 - Rôle
+ - vision.php	 - orchestrateur, logs silencieux
+ - Vision_UniCell.php	 - stockage .vr, sharding
+ - Vision_API.php	 - API publique complète
+ - vision_wave.php	 - état global
+ - vision_lock.php	 - lock non bloquant
+ - vision_worker.php	 - multitâche (Fibers)
+ - vision_autoclean.php	 - maintenance autonome
 
 # 7. API Vision (complète)
-Fonction	Description	Signature
-create	créer une cellule	create(array $data, array $relations=[]): string
-read	lire une cellule	read(string $id): ?array
-update	mettre à jour	update(string $id, array $data, array $relations=[]): bool
-delete	supprimer	delete(string $id): bool
-exists	vérifier existence	exists(string $id): bool
-relations	lire relations	relations(string $id): array
-link	créer relation	link(string $id, string $targetId, int $niveau): bool
-unlink	supprimer relation	unlink(string $id, string $targetId): bool
-graph	graphe autour d’une cellule	graph(string $id): array
-find	recherche personnalisée	find(callable $filter): array
-count	nombre total	count(): int
-stats	statistiques	stats(): array
-clean	maintenance	clean(): void
+Fonction	 - Description	 - Signature
+create	 - créer une cellule	 - create(array $data, array $relations=[]): string
+read	 - lire une cellule	 - read(string $id): ?array
+update	 - mettre à jour	 - update(string $id, array $data, array $relations=[]): bool
+delete	 - supprimer	 - delete(string $id): bool
+exists	 - vérifier existence	 - exists(string $id): bool
+relations	 - lire relations	 - relations(string $id): array
+link	 - créer relation	 - link(string $id, string $targetId, int $niveau): bool
+unlink	 - supprimer relation	 - unlink(string $id, string $targetId): bool
+graph	 - graphe autour d’une cellule	 - graph(string $id): array
+find	 - recherche personnalisée	 - find(callable $filter): array
+count	 - nombre total	 - count(): int
+stats	 - statistiques	 - stats(): array
+clean	 - maintenance	 - clean(): void
 
 # 8. Exemples
  - Forum : 
-	$topic = Vision_API::create(['title' => 'Bonjour']); 
-	$post  = Vision_API::create(['text' => 'Salut'], [['id'=>$topic,'niveau'=>1]]); 
-	$reply = Vision_API::create(['text' => 'Merci'], [['id'=>$post,'niveau'=>1]]); 
+	 - $topic = Vision_API::create(['title' => 'Bonjour']); 
+	 - $post  = Vision_API::create(['text' => 'Salut'], [['id'=>$topic,'niveau'=>1]]); 
+	 - $reply = Vision_API::create(['text' => 'Merci'], [['id'=>$post,'niveau'=>1]]); 
 
  - CMS :
-	$page = Vision_API::create(['title' => 'Accueil']); 
-	$section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]); 
+	 - $page = Vision_API::create(['title' => 'Accueil']); 
+	 - $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]); 
 
 # 9. Sécurité & robustesse
 Ecriture atomique
@@ -274,45 +274,45 @@ json
 }
 
 # 6. Internal Modules
- - Module	Role
- - vision.php	entry point
- - Vision_UniCell.php	.vr storage
- - Vision_API.php	full API
- - vision_wave.php	global state
- - vision_lock.php	non‑blocking lock
- - vision_worker.php	async tasks
- - vision_autoclean.php	maintenance
+ - Module	 - Role
+ - vision.php	 - entry point
+ - Vision_UniCell.php	 - .vr storage
+ - Vision_API.php	 - full API
+ - vision_wave.php	 - global state
+ - vision_lock.php	 - non‑blocking lock
+ - vision_worker.php	 - async tasks
+ - vision_autoclean.php	 - maintenance
 
 # 7. Vision API (Complete)
-Function	Description	Signature
-create	create a cell	create(array $data, array $relations=[]): string
-read	read a cell	read(string $id): ?array
-update	update a cell	update(string $id, array $data, array $relations=[]): bool
-delete	delete a cell	delete(string $id): bool
-exists	check existence	exists(string $id): bool
-relations	get relations	relations(string $id): array
-link	create relation	link(string $id, string $targetId, int $level): bool
-unlink	remove relation	unlink(string $id, string $targetId): bool
-graph	build graph	graph(string $id): array
-find	custom search	find(callable $filter): array
-count	total cells	count(): int
-stats	global stats	stats(): array
-clean	maintenance	clean(): void
+Function	 - Description	 - Signature
+create	 - create a cell	 - create(array $data, array $relations=[]): string
+read	 - read a cell	 - read(string $id): ?array
+update	 - update a cell	 - update(string $id, array $data, array $relations=[]): bool
+delete	 - delete a cell	 - delete(string $id): bool
+exists	 - check existence	 - exists(string $id): bool
+relations	 - get relations	 - relations(string $id): array
+link	 - create relation	 - link(string $id, string $targetId, int $level): bool
+unlink	 - remove relation	 - unlink(string $id, string $targetId): bool
+graph	 - build graph	 - graph(string $id): array
+find	 - custom search	 - find(callable $filter): array
+count	 - total cells	 - count(): int
+stats	 - global stats	 - stats(): array
+clean	 - maintenance	 - clean(): void
 
 # 8. Usage Examples
  - Forum : 
-	$topic = Vision_API::create(['title' => 'Hello']); 
-	$post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]); 
-	$reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'level'=>1]]); 
+	 - $topic = Vision_API::create(['title' => 'Hello']); 
+	 - $post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]); 
+	 - $reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'level'=>1]]); 
 
  - CMS : 
-	$page = Vision_API::create(['title' => 'Home']); 
-	$section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'level'=>1]]); 
+	 - $page = Vision_API::create(['title' => 'Home']); 
+	 - $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'level'=>1]]); 
 
  - Knowledge Graph : 
-	$paris = Vision_API::create(['name'=>'Paris']); 
-	$france = Vision_API::create(['name'=>'France']); 
-	Vision_API::link($paris, $france, 1); 
+	 - $paris = Vision_API::create(['name'=>'Paris']); 
+	 - $france = Vision_API::create(['name'=>'France']); 
+	 - Vision_API::link($paris, $france, 1); 
 
 # 9. Security & Robustness
 atomic writes

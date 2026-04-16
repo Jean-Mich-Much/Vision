@@ -60,8 +60,6 @@ Aucune prédiction. Aucune cascade automatique.
 YYYYMMDD/
 id_unique.vr    → 1 fichier = 1 cellule
 
-Code
-
 ---
 
 # 3. Format UniCell (.vr)
@@ -240,14 +238,13 @@ No prediction. No automatic cascade.
 2. File Architecture
 Code
 /vision/
-    vision.php
-    Vision_UniCell.php
-    Vision_API.php
-
-    vision_wave.php
-    vision_lock.php
-    vision_worker.php
-    vision_autoclean.php
+  -  vision.php
+   - Vision_UniCell.php
+   - Vision_API.php
+   - vision_wave.php
+   - vision_lock.php
+   - vision_worker.php
+   - vision_autoclean.php
 
     /data/
         YYYYMMDD/

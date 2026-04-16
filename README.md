@@ -138,22 +138,14 @@ stats	statistiques	stats(): array
 clean	maintenance	clean(): void
 
 8. Exemples
-Forum
-php
-$topic = Vision_API::create(['title' => 'Bonjour']);
-$post  = Vision_API::create(['text' => 'Salut'], [['id'=>$topic,'niveau'=>1]]);
-$reply = Vision_API::create(['text' => 'Merci'], [['id'=>$post,'niveau'=>1]]);
+ - Forum : 
+ $topic = Vision_API::create(['title' => 'Bonjour']); 
+ $post  = Vision_API::create(['text' => 'Salut'], [['id'=>$topic,'niveau'=>1]]); 
+ $reply = Vision_API::create(['text' => 'Merci'], [['id'=>$post,'niveau'=>1]]); 
 
-CMS
-php
-$page = Vision_API::create(['title' => 'Accueil']);
-$section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]);
-
-Knowledge Graph
-php
-$paris = Vision_API::create(['name'=>'Paris']);
-$france = Vision_API::create(['name'=>'France']);
-Vision_API::link($paris, $france, 1);
+ - CMS :
+ $page = Vision_API::create(['title' => 'Accueil']); 
+ $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]); 
 
 9. Sécurité & robustesse
 écriture atomique
@@ -308,22 +300,19 @@ stats	global stats	stats(): array
 clean	maintenance	clean(): void
 
 8. Usage Examples
-Forum
-php
-$topic = Vision_API::create(['title' => 'Hello']);
-$post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]);
-$reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'level'=>1]]);
+ - Forum : 
+ $topic = Vision_API::create(['title' => 'Hello']); 
+ $post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]); 
+ $reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'level'=>1]]); 
 
-CMS
-php
-$page = Vision_API::create(['title' => 'Home']);
-$section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'level'=>1]]);
+ - CMS : 
+ $page = Vision_API::create(['title' => 'Home']); 
+ $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'level'=>1]]); 
 
-Knowledge Graph
-php
-$paris = Vision_API::create(['name'=>'Paris']);
-$france = Vision_API::create(['name'=>'France']);
-Vision_API::link($paris, $france, 1);
+ - Knowledge Graph : 
+ $paris = Vision_API::create(['name'=>'Paris']); 
+ $france = Vision_API::create(['name'=>'France']); 
+ Vision_API::link($paris, $france, 1); 
 
 9. Security & Robustness
 atomic writes

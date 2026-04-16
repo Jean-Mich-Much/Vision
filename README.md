@@ -148,49 +148,49 @@ Aucune orchestration lourde.
 	 - $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]); 
 
 # 9. Sécurité & robustesse
-Ecriture atomique
-aucune corruption possible
-crash‑safe
-lock non bloquant
-aucune cascade automatique
-aucune prédiction
-logs silencieux
+ - Ecriture atomique
+ - aucune corruption possible
+ - crash‑safe
+ - lock non bloquant
+ - aucune cascade automatique
+ - aucune prédiction
+ - logs silencieux
 
 # 10. Limites explicites
-Vision ne fera jamais :
-transactions multi‑cellules
-triggers
-prédictions
-réorganisation globale
-analyse du contenu
-index secondaires automatiques
-logique métier
+ - Vision ne fera jamais :
+	 - transactions multi‑cellules
+	 - triggers
+	 - prédictions
+	 - réorganisation globale
+	 - analyse du contenu
+	 - index secondaires automatiques
+	 - logique métier
 
 # 11. Pourquoi Vision ?
-Comparé à SQL
-pas de tables
-pas de schéma
-pas de migrations
-pas de jointures complexes
+ - Comparé à SQL :
+	 - pas de tables
+	 - pas de schéma
+	 - pas de migrations
+	 - pas de jointures complexes
 
-Comparé à un document store
-cellules autonomes
-relations natives
-sharding naturel
+ - Comparé à un document store :
+	 - cellules autonomes
+	 - relations natives
+	 - sharding naturel
 
-Comparé à une base graphe
-relations simples
-navigation multi‑shards
-résistance aux cycles
+ - Comparé à une base graphe :
+	 - relations simples
+	 - navigation multi‑shards
+	 - résistance aux cycles
 
-Ce que Vision apporte
-simplicité
-robustesse
-prévisibilité
-lisibilité humaine
-zéro dépendance
+ - Ce que Vision apporte :
+	 - simplicité
+	 - robustesse
+	 - prévisibilité
+	 - lisibilité humaine
+	 - zéro dépendance
 
-<a name="english-version"></a><div align="center">🇬🇧 English Version</div>
+<a name="english-version"><div align="center">🇬🇧 English Version</div></a>
 
 🚀 Vision - Natural Data Engine (NDE)
 Vision is a Natural Data Engine (NDE).
@@ -315,44 +315,44 @@ json
 	 - Vision_API::link($paris, $france, 1); 
 
 # 9. Security & Robustness
-atomic writes
-no corruption
-crash‑safe
-non‑blocking lock
-no automatic cascade
-no prediction
-silent logs
+ - atomic writes
+ - no corruption
+ - crash‑safe
+ - non‑blocking lock
+ - no automatic cascade
+ - no prediction
+ - silent logs
 
 # 10. Explicit Limitations
-Vision will never implement:
-multi‑cell transactions
-triggers
-prediction
-global reorganization
-content analysis
-automatic secondary indexes
-business logic
+ - Vision will never implement :
+	 - multi‑cell transactions
+	 - triggers
+	 - prediction
+	 - global reorganization
+	 - content analysis
+	 - automatic secondary indexes
+	 - business logic
 
 # 11. Why Vision?
-Compared to SQL
-no tables
-no schema
-no migrations
-no joins
+ - Compared to SQL :
+	 - no tables
+	 - no schema
+	 - no migrations
+	 - no joins
 
-Compared to document stores
-autonomous cells
-native relations
-natural sharding
+ - Compared to document stores :
+	 - autonomous cells
+	 - native relations
+	 - natural sharding
 
-Compared to graph databases
-simple relation levels
-multi‑shard navigation
-cycle‑resistant
+ - Compared to graph databases :
+	 - simple relation levels
+	 - multi‑shard navigation
+	 - cycle‑resistant
 
-What Vision provides
-simplicity
-robustness
-predictability
-human‑readable structure
-zero dependencies
+ - What Vision provides :
+	 - simplicity
+	 - robustness
+	 - predictability
+	 - human‑readable structure
+	 - zero dependencies

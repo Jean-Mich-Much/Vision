@@ -75,7 +75,7 @@ Code
 
 Exemple JSON interne :
 
-```json
+json
 {
   "id": "20260416_ab12cd34ef56",
   "data": { ... },
@@ -85,7 +85,7 @@ Exemple JSON interne :
   ],
   "createdAt": 1713200000,
   "updatedAt": 1713200000
-}```
+}
 
 Propriétés
 écriture atomique (.tmp → rename())

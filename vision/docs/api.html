@@ -1,207 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>API Happy! – Vision</title>
+    <meta charset="UTF-8">
+    <title>API Happy! – Vision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg: #050816;
+            --bg-alt: #0b1020;
+            --accent: #4f46e5;
+            --accent-soft: rgba(79, 70, 229, 0.25);
+            --accent-strong: rgba(129, 140, 248, 0.35);
+            --border-subtle: rgba(148, 163, 184, 0.35);
+            --text-main: #e5e7eb;
+            --text-soft: #9ca3af;
+            --text-strong: #f9fafb;
+            --danger: #f97373;
+            --success: #4ade80;
+            --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+            --blur-strong: 22px;
+        }
 
-<style>
-:root {
-    --bg-body: #e5edf7;
-    --bg-glass: rgba(255, 255, 255, 0.7);
-    --bg-glass-strong: rgba(255, 255, 255, 0.9);
-    --border-glass: rgba(148, 163, 184, 0.6);
-    --shadow-soft: 0 0.4em 1.2em rgba(15, 23, 42, 0.18);
-    --accent: #2563eb;
-    --accent-soft: rgba(37, 99, 235, 0.12);
-    --accent-strong: rgba(37, 99, 235, 0.18);
-    --text-main: #0f172a;
-    --text-soft: #475569;
-    --code-bg: rgba(15, 23, 42, 0.9);
-    --code-border: rgba(15, 23, 42, 0.4);
-    --radius-lg: 1.2em;
-    --radius-md: .8em;
-    --radius-sm: .5em;
-    --gap-lg: 2.2em;
-    --gap-md: 1.4em;
-    --gap-sm: .8em;
-    --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
+        * { box-sizing: border-box; }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    font-family: var(--font-main);
-    background: radial-gradient(circle at top left, #f9fbff, #dbe4f3);
-    color: var(--text-main);
-}
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+            color: var(--text-main);
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            padding: 32px 16px;
+            font-size: 16px;
+        }
 
-body {
-    backdrop-filter: blur(1.2em);
-}
+        .app-shell {
+            flex: 1;
+            max-width: 1280px;
+            background: rgba(15, 23, 42, 0.92);
+            border-radius: 28px;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-/* Layout global */
+        .app-inner { display: flex; flex: 1; padding: 18px; gap: 18px; }
 
-.page {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-}
+        .sidebar {
+            flex: 0 0 300px;
+            background: rgba(15, 23, 42, 0.96);
+            border-radius: 22px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
 
-/* Menu gauche */
+        .sidebar-title h1 { margin: 0; font-size: 20px; color: var(--text-strong); text-transform: uppercase; }
+        
+        .sidebar-search input {
+            flex: none;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-subtle);
+            padding: 8px 12px;
+            border-radius: 999px;
+            color: white;
+            font-size: 16px;
+        }
 
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-glass-strong);
-    border-right: .07em solid var(--border-glass);
-    backdrop-filter: blur(1.4em);
-    padding: 1.2em;
-    gap: 1em;
-    min-width: 18em;
-    box-shadow: var(--shadow-soft);
-}
+        .command-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
 
-.sidebar h2 {
-    margin: 0;
-    font-size: 1.3rem;
-    border-left: .18em solid var(--accent);
-    padding-left: .6em;
-}
+        .command-item {
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 16px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-.api-list {
-    display: flex;
-    flex-direction: column;
-    gap: .4em;
-}
+        .command-item.active {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
 
-.api-item {
-    padding: .6em;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    background: rgba(255,255,255,0.4);
-    border: .07em solid rgba(148,163,184,0.3);
-    transition: background .15s ease, transform .1s ease;
-}
+        .main-panel {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.96);
+            border-radius: 22px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-.api-item:hover {
-    background: var(--accent-soft);
-    transform: translateX(.1em);
-}
+        .content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
 
-.api-item.active {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-}
+        .code-block {
+            margin: 14px 0;
+            border-radius: 14px;
+            background: #020617;
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+        }
 
-/* Zone de contenu */
+        .code-block-header {
+            padding: 8px 12px;
+            background: #1e293b;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+        }
 
-.content {
-    flex: 1;
-    padding: 2em;
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-lg);
-}
+        .code-block-content { padding: 12px; }
 
-/* Titres */
+        pre {
+            margin: 0;
+            font-family: monospace;
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
 
-h1 {
-    margin: 0;
-    font-size: 1.7rem;
-    display: flex;
-    align-items: center;
-    gap: .6em;
-}
+        .copy-btn, .home-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    border-left: .18em solid var(--accent);
-    padding-left: .6em;
-}
-
-h3 {
-    margin: 0;
-    font-size: 1.2rem;
-}
-
-h4 {
-    margin: 0;
-    font-size: 1.05rem;
-}
-
-/* Texte */
-
-p {
-    margin: 0;
-    color: var(--text-soft);
-}
-
-/* Code blocks */
-
-.code-block {
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: var(--code-bg);
-    border: .07em solid var(--code-border);
-    box-shadow: 0 .6em 1.4em rgba(15, 23, 42, 0.5);
-}
-
-.code-block-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-inline: .9em;
-    padding-block: .5em;
-    background: linear-gradient(to right, rgba(15,23,42,0.95), rgba(30,64,175,0.9));
-    color: #e5edff;
-    font-size: .8rem;
-}
-
-.code-block-header button {
-    border: none;
-    background: rgba(15, 23, 42, 0.4);
-    color: #e5edff;
-    border-radius: 999em;
-    padding-inline: .9em;
-    padding-block: .25em;
-    font-size: .75rem;
-    cursor: pointer;
-}
-
-.code-block-content {
-    padding: 1em;
-    color: #e5edff;
-    overflow: auto;
-    font-family: var(--font-mono);
-    font-size: .9rem;
-}
-</style>
+        @media (max-width: 960px) {
+            .app-inner { flex-direction: column; }
+            .sidebar { flex: none; flex-direction: row; overflow-x: auto; }
+        }
+    </style>
 </head>
 
 <body>
-<div class="page">
+<div class="app-shell">
+    <div class="app-inner">
+        <aside class="sidebar">
+            <div class="sidebar-title">
+                <h1>API Happy!</h1>
+            </div>
+            <div class="sidebar-search">
+                <input type="text" id="apiSearch" placeholder="Chercher une commande...">
+            </div>
+            <div class="command-list" id="apiList">
+                <!-- rempli par JS -->
+            </div>
+            <div style="margin-top:auto">
+                <button class="home-btn" onclick="location.href='vision.html'">🏠 Vue d'ensemble</button>
+            </div>
+        </aside>
 
-    <!-- MENU GAUCHE -->
-    <aside class="sidebar">
-        <h2>📚 API Happy!</h2>
-        <div class="api-list" id="apiList">
-            <!-- rempli par JS -->
-        </div>
-    </aside>
-
-    <!-- CONTENU -->
-    <main class="content" id="apiContent">
-        <!-- rempli par JS -->
-    </main>
-
+        <main class="main-panel">
+            <div id="apiContent" class="content-scroll">
+                <!-- rempli par JS -->
+            </div>
+        </main>
+    </div>
 </div>
 <script>
 // --- Liste des API Vision (triées A → Z) ---
@@ -233,17 +211,25 @@ function buildMenu() {
 
     apiCommands.forEach(cmd => {
         const item = document.createElement("div");
-        item.className = "api-item";
+        item.className = "command-item";
         item.dataset.cmd = cmd;
-        item.textContent = "🔹 " + cmd;
+        item.textContent = cmd.toUpperCase();
         item.addEventListener("click", () => selectAPI(cmd));
         list.appendChild(item);
     });
 }
 
+// --- Recherche ---
+document.getElementById("apiSearch").addEventListener("input", (e) => {
+    const val = e.target.value.toLowerCase();
+    document.querySelectorAll(".command-item").forEach(item => {
+        item.style.display = item.dataset.cmd.includes(val) ? "flex" : "none";
+    });
+});
+
 // --- Active un item du menu ---
 function highlightMenu(cmd) {
-    document.querySelectorAll(".api-item").forEach(el => {
+    document.querySelectorAll(".command-item").forEach(el => {
         el.classList.toggle("active", el.dataset.cmd === cmd);
     });
 }
@@ -257,26 +243,13 @@ function selectAPI(cmd) {
     container.innerHTML = html;
 
     setupCopyButtons();
-    animateContent();
-}
-
-// --- Animation douce à l’affichage ---
-function animateContent() {
-    const el = document.getElementById("apiContent");
-    el.style.opacity = "0";
-    el.style.transform = "translateY(.6em)";
-    setTimeout(() => {
-        el.style.transition = "opacity .3s ease, transform .3s ease";
-        el.style.opacity = "1";
-        el.style.transform = "translateY(0)";
-    }, 10);
 }
 
 // --- Boutons “copier le code” ---
 function setupCopyButtons() {
     document.querySelectorAll(".copy-btn").forEach(btn => {
         btn.onclick = () => {
-            const pre = btn.closest(".code-block").querySelector("pre");
+            const pre = btn.closest(".code-block").querySelector("pre code");
             const text = pre.innerText;
 
             navigator.clipboard.writeText(text).then(() => {
@@ -302,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 apiContentData["clean"] = `
 <h1>🧹 clean() — Nettoyage automatique</h1>
 
-<p><strong>Débutant :</strong> Cette commande nettoie les fichiers inutiles ou corrompus.  
+<p><strong>Débutant :</strong> C'est le "balai" du moteur. Utilisez cette commande pour supprimer les fichiers temporaires oubliés ou les données vides.  
 Elle garde Vision propre et rapide.</p>
 
 <p><strong>Intermédiaire :</strong> clean() supprime les cellules orphelines, les .tmp abandonnés,  
@@ -339,7 +312,7 @@ if ($wave['disk'] === 'idle' && $wave['charge'] &lt; 0.4) {
 apiContentData["count"] = `
 <h1>🔢 count() — Nombre total de cellules</h1>
 
-<p><strong>Débutant :</strong> Renvoie combien de cellules existent dans Vision.</p>
+<p><strong>Débutant :</strong> Compte instantanément combien d'éléments (news, messages, fiches) vous avez en stock dans votre base.</p>
 
 <p><strong>Intermédiaire :</strong> Parcourt les shards et compte les fichiers .vr valides.</p>
 
@@ -371,7 +344,7 @@ echo "Différence : " . ($after - $before);</code></pre></div>
 apiContentData["create"] = `
 <h1>✨ create() — Créer une cellule</h1>
 
-<p><strong>Débutant :</strong> Crée une nouvelle cellule avec des données simples.</p>
+<p><strong>Débutant :</strong> Enregistre une nouvelle information (un article, un profil, etc.). Vision vous redonne immédiatement l'identifiant unique de ce que vous venez de créer.</p>
 
 <p><strong>Intermédiaire :</strong> Peut ajouter des relations (niveau 0, 1, 2...).</p>
 
@@ -408,7 +381,7 @@ $post = Vision_API::create(
 apiContentData["delete"] = `
 <h1>🗑 delete() — Supprimer une cellule</h1>
 
-<p><strong>Débutant :</strong> Supprime une cellule par son ID.</p>
+<p><strong>Débutant :</strong> Efface définitivement une information en utilisant son identifiant.</p>
 
 <p><strong>Intermédiaire :</strong> delete() supprime aussi les relations pointant vers elle.</p>
 
@@ -442,7 +415,7 @@ foreach ($all as $cell) {
 apiContentData["exists"] = `
 <h1>🔍 exists() — Vérifier l’existence</h1>
 
-<p><strong>Débutant :</strong> Vérifie si une cellule existe.</p>
+<p><strong>Débutant :</strong> Permet de savoir si un identifiant correspond bien à une donnée réelle avant d'essayer de l'afficher.</p>
 
 <p><strong>Intermédiaire :</strong> exists() lit uniquement l’en-tête du fichier .vr.</p>
 
@@ -474,7 +447,7 @@ $valid = array_filter($ids, fn($id) => Vision_API::exists($id));</code></pre></d
 apiContentData["find"] = `
 <h1>🔎 find() — Recherche personnalisée</h1>
 
-<p><strong>Débutant :</strong> Permet de chercher des cellules selon un critère simple.</p>
+<p><strong>Débutant :</strong> Cherche dans toute votre base les éléments qui correspondent à votre besoin (ex: toutes les news qui parlent de "Vitesse").</p>
 
 <p><strong>Intermédiaire :</strong> find() parcourt toutes les cellules et applique un filtre PHP.</p>
 
@@ -512,7 +485,7 @@ mais une liberté totale.</p>
 apiContentData["graph"] = `
 <h1>🕸 graph() — Construire un graphe</h1>
 
-<p><strong>Débutant :</strong> Récupère une cellule + ses relations.</p>
+<p><strong>Débutant :</strong> Récupère une news et "tire le fil" pour obtenir tout ce qui lui est lié (commentaires, articles similaires, auteurs).</p>
 
 <p><strong>Intermédiaire :</strong> graph() suit les relations niveau 0, 1, 2…</p>
 
@@ -544,7 +517,7 @@ foreach ($deep['relations'] as $rel) {
 apiContentData["link"] = `
 <h1>🔗 link() — Créer une relation</h1>
 
-<p><strong>Débutant :</strong> Relie deux cellules.</p>
+<p><strong>Débutant :</strong> Crée un pont entre deux informations. Par exemple, liez un "Commentaire" à une "News".</p>
 
 <p><strong>Intermédiaire :</strong> Le niveau indique la profondeur (0, 1, 2...).</p>
 
@@ -572,7 +545,7 @@ apiContentData["link"] = `
 apiContentData["read"] = `
 <h1>📖 read() — Lire une cellule</h1>
 
-<p><strong>Débutant :</strong> Récupère les données d’une cellule.</p>
+<p><strong>Débutant :</strong> Ouvre et lit le contenu complet d'une information (identifiant, texte, date de création).</p>
 
 <p><strong>Intermédiaire :</strong> read() valide le format .vr.</p>
 
@@ -604,7 +577,7 @@ foreach ($ids as $id) {
 apiContentData["relations"] = `
 <h1>🧩 relations() — Lire les relations</h1>
 
-<p><strong>Débutant :</strong> Renvoie les relations d’une cellule.</p>
+<p><strong>Débutant :</strong> Liste tous les ponts (liens) attachés à une information précise sans lire le contenu des autres news.</p>
 
 <p><strong>Intermédiaire :</strong> Chaque relation contient un ID + un niveau.</p>
 
@@ -637,7 +610,7 @@ apiContentData["relations"] = `
 apiContentData["stats"] = `
 <h1>📊 stats() — Statistiques globales</h1>
 
-<p><strong>Débutant :</strong> Donne des infos sur Vision.</p>
+<p><strong>Débutant :</strong> Permet de surveiller la santé de votre base : taille sur le disque, nombre d'éléments, etc.</p>
 
 <p><strong>Intermédiaire :</strong> stats() parcourt les shards et mesure la taille.</p>
 
@@ -670,7 +643,7 @@ echo "Cellules : " . $s['count'] . "\\n";</code></pre></div>
 apiContentData["unlink"] = `
 <h1>🪢 unlink() — Supprimer une relation</h1>
 
-<p><strong>Débutant :</strong> Retire un lien entre deux cellules.</p>
+<p><strong>Débutant :</strong> Coupe le pont entre deux informations. Les deux news restent présentes, mais elles ne sont plus liées.</p>
 
 <p><strong>Intermédiaire :</strong> unlink() modifie uniquement la cellule source.</p>
 
@@ -703,7 +676,7 @@ foreach ($rels as $r) {
 apiContentData["update"] = `
 <h1>🛠 update() — Mettre à jour une cellule</h1>
 
-<p><strong>Débutant :</strong> Modifie les données d’une cellule existante.</p>
+<p><strong>Débutant :</strong> Change le contenu d'une information déjà enregistrée (ex: corriger une faute dans une news).</p>
 
 <p><strong>Intermédiaire :</strong> update() réécrit le fichier .vr de manière atomique.</p>
 
@@ -742,11 +715,11 @@ foreach ($cells as $c) {
 apiContentData["include"] = `
 <h1>📦 include() — Charger Vision dans votre projet</h1>
 
-<p><strong>Débutant :</strong> Le simple fait d’inclure <code>vision.php</code> active automatiquement tout le moteur Vision.  
-Aucune configuration, aucune initialisation, rien à instancier.</p>
+<p><strong>Débutant :</strong> C'est l'unique étape d'installation. Ajoutez une seule ligne de code <code>include "vision/vision.php";</code> au début de votre site et <strong>votre base de données est prête</strong>. 
+Il n'y a aucun serveur à configurer, aucun mot de passe, aucune table à créer.</p>
 
-<p><strong>Intermédiaire :</strong> L’include charge le cœur du moteur, initialise les chemins,  
-prépare les fonctions API, charge Wave, et rend Vision immédiatement opérationnel.</p>
+<p><strong>Intermédiaire :</strong> L'inclusion exécute l'Auto-Bootstrap : elle initialise les chemins, 
+le système de verrouillage, le gestionnaire de mémoire (RAM) et rend l'API <code>Vision_API</code> accessible partout.</p>
 
 <p><strong>Expert :</strong> L’include exécute un bootstrap complet :  
 détection du dossier Vision, chargement du cache interne,  

@@ -39,6 +39,7 @@ html, body {
     font-family: var(--font-main);
     background: radial-gradient(circle at top left, #f9fbff, #dbe4f3);
     color: var(--text-main);
+    font-size: 16px;
 }
 
 body {
@@ -94,14 +95,14 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-    font-size: 1.7rem;
+    font-size: 20px;
     display: flex;
     align-items: center;
     gap: .6em;
 }
 
 h1 span.badge {
-    font-size: .8rem;
+    font-size: 16px;
     padding-inline: .7em;
     padding-block: .3em;
     border-radius: 999em;
@@ -111,17 +112,17 @@ h1 span.badge {
 }
 
 h2 {
-    font-size: 1.4rem;
+    font-size: 18px;
     border-left: .18em solid var(--accent);
     padding-left: .6em;
 }
 
 h3 {
-    font-size: 1.15rem;
+    font-size: 17px;
 }
 
 h4 {
-    font-size: 1.05rem;
+    font-size: 16px;
 }
 
 /* Texte */
@@ -129,12 +130,14 @@ h4 {
 p {
     margin: 0;
     color: var(--text-soft);
+    font-size: 16px;
 }
 
 ul {
     margin: 0;
     padding-left: 1.2em;
     color: var(--text-soft);
+    font-size: 16px;
 }
 
 li + li {
@@ -189,7 +192,7 @@ table {
 th, td {
     border: .07em solid rgba(148, 163, 184, 0.4);
     padding: .7em;
-    font-size: .9rem;
+    font-size: 16px;
 }
 
 th {
@@ -204,15 +207,17 @@ code {
     padding-inline: .4em;
     padding-block: .15em;
     border-radius: var(--radius-sm);
-    font-size: .85rem;
+    font-size: 16px;
     font-family: var(--font-mono);
 }
 
 pre {
     margin: 0;
     font-family: var(--font-mono);
-    font-size: .9rem;
+    font-size: 16px;
     line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 /* Bloc code avec header + bouton copier */
@@ -235,7 +240,7 @@ pre {
     padding-block: .5em;
     background: linear-gradient(to right, rgba(15,23,42,0.95), rgba(30,64,175,0.9));
     color: #e5edff;
-    font-size: .8rem;
+    font-size: 16px;
 }
 
 .code-block-header span {
@@ -249,7 +254,7 @@ pre {
     border-radius: 999em;
     padding-inline: .9em;
     padding-block: .25em;
-    font-size: .75rem;
+    font-size: 16px;
     display: inline-flex;
     align-items: center;
     gap: .4em;
@@ -278,7 +283,7 @@ pre {
 footer {
     padding: 1.2em;
     text-align: center;
-    font-size: .9rem;
+    font-size: 16px;
     color: var(--text-soft);
     border-top: .07em solid rgba(148, 163, 184, 0.5);
     background: rgba(248, 250, 252, 0.9);
@@ -296,7 +301,7 @@ footer {
     border-radius: 999em;
     background: var(--accent-soft);
     color: var(--accent);
-    font-size: .8rem;
+    font-size: 16px;
 }
 
 .highlight {
@@ -334,6 +339,18 @@ a:hover {
         🚀 Vision – Natural Data Engine
         <span class="badge">NDE • PHP 8.3+</span>
     </h1>
+    <div class="highlight" style="border-left: 0.3em solid var(--success); background: rgba(74, 222, 128, 0.1);">
+        <h3 style="color: var(--text-main); margin-bottom: 0.3em;">⚡ Zéro Configuration (Plug & Play)</h3>
+        <p style="color: var(--text-main);">
+            Contrairement aux bases SQL (MySQL, PostgreSQL) ou NoSQL (MongoDB), Vision ne nécessite 
+            <strong>aucune installation de serveur</strong>, <strong>aucun compte utilisateur</strong>, 
+            et <strong>aucune configuration</strong>.
+        </p>
+        <p style="margin-top: 0.5em; font-weight: bold; color: var(--accent);">
+            Le simple fait d'inclure <code>vision.php</code> dans votre code active instantanément 
+            toute l'infrastructure (Base de données, Cache, Verrouillage, Worker).
+        </p>
+    </div>
     <p><strong>Vision est un moteur de données naturel (NDE : Natural Data Engine).</strong><br>
     Un NDE est une évolution des bases de données traditionnelles : il stocke, lit et relie des données comme une base classique, mais il le fait <strong>sans schéma</strong>, <strong>sans tables</strong>, <strong>sans SQL</strong> et <strong>sans structure imposée</strong>.<br><br>
     Vision repose sur deux fondations simples : <strong>UniCell</strong>, où chaque donnée est une cellule autonome stockée dans un fichier <code>.vr</code>, et <strong>Wave</strong>, un état global minimal qui coordonne le moteur.<br><br>
@@ -342,11 +359,11 @@ a:hover {
 </header>
 
 <section>
-    <h2>1. Introduction</h2>
+    <h2 id="intro">1. Introduction</h2>
     <p>Vision est un moteur de données artisanal en PHP 8.3+, UTF‑8 LF, sans dépendances.  
     Il est autonome, simple, stable et prévisible. Il reconstruit naturellement des structures complexes&nbsp;: forums, CMS, knowledge graphs, présentations, données scientifiques, etc.</p>
 
-    <ul>
+    <ul id="unicell">
         <li><strong>UniCell</strong> – chaque donnée est une cellule autonome stockée dans un fichier <code>.vr</code>.  
         Les relations utilisent des niveaux simples :
             <ul>
@@ -363,7 +380,7 @@ a:hover {
 </section>
 
 <section>
-    <h2>2. Architecture des fichiers</h2>
+    <h2 id="arch">2. Architecture des fichiers</h2>
     <div class="code-block" data-code>
         <div class="code-block-header">
             <span>Structure du projet</span>
@@ -392,7 +409,7 @@ a:hover {
 </section>
 
 <section>
-    <h2>3. UniCell – format .vr</h2>
+    <h2 id="format">3. UniCell – format .vr</h2>
     <p>Chaque cellule est stockée dans un fichier <code>.vr</code> :</p>
 
     <div class="code-block" data-code>
@@ -448,7 +465,7 @@ a:hover {
 </section>
 
 <section>
-    <h2>4. Sharding</h2>
+    <h2 id="sharding">4. Sharding</h2>
     <p>Chaque cellule est stockée dans :</p>
 
     <div class="code-block" data-code>
@@ -470,7 +487,7 @@ a:hover {
 </section>
 
 <section>
-    <h2>5. Wave – état global</h2>
+    <h2 id="wave">5. Wave – état global</h2>
     <p>Wave est un tableau associatif simple :</p>
 
     <div class="code-block" data-code>
@@ -500,10 +517,10 @@ a:hover {
 </section>
 
 <section>
-    <h2>6. Modules internes</h2>
+    <h2 id="modules">6. Modules internes</h2>
     <div class="grid">
 
-        <div class="card">
+        <div class="card" id="mod-api">
             <h3>vision.php</h3>
             <ul>
                 <li>point d’entrée</li>
@@ -578,7 +595,7 @@ a:hover {
 </section>
 
 <section>
-    <h2>7. API Vision (complète)</h2>
+    <h2 id="api">7. API Vision (complète)</h2>
     <p>L’API Vision est exposée via <code>Vision_API.php</code>.  
     Les fonctions suivantes sont disponibles en mode statique (ex. <code>Vision_API::create(...)</code>).</p>
 
@@ -663,7 +680,7 @@ a:hover {
 </section>
 
 <section>
-    <h2>8. Exemples d’utilisation</h2>
+    <h2 id="exemples">8. Exemples d’utilisation</h2>
     <div class="grid">
 
         <div class="card">
@@ -769,7 +786,7 @@ Vision_API::link($paris, $france, 1);
 </section>
 
 <section>
-    <h2>9. Sécurité &amp; robustesse</h2>
+    <h2 id="secu">9. Sécurité &amp; robustesse</h2>
     <ul>
         <li>atomicité stricte (écriture complète, <code>.tmp</code> puis <code>rename()</code>)</li>
         <li>aucune écriture partielle</li>
@@ -784,7 +801,7 @@ Vision_API::link($paris, $france, 1);
 </section>
 
 <section>
-    <h2>10. Limites explicites</h2>
+    <h2 id="limites">10. Limites explicites</h2>
     <p>Vision ne fera jamais :</p>
     <ul>
         <li>transactions multi‑cellules</li>
@@ -802,7 +819,7 @@ Vision_API::link($paris, $france, 1);
 </section>
 
 <section>
-    <h2>11. Pourquoi Vision&nbsp;?</h2>
+    <h2 id="pourquoi">11. Pourquoi Vision&nbsp;?</h2>
     <p>Vision n’est pas une base SQL, ni un document store, ni une base orientée graphe classique.  
     C’est un moteur de données naturel (NDE) conçu pour offrir une alternative simple, robuste et prévisible aux systèmes traditionnels.</p>
 
@@ -855,7 +872,73 @@ Vision_API::link($paris, $france, 1);
 </section>
 
 <section>
-    <h2>12. Conclusion</h2>
+    <h2 id="tuto">12. Tutoriel : Créer un micro-système de news</h2>
+    <p>Ce petit guide vous montre comment utiliser Vision pour gérer des articles et des catégories en quelques lignes de code.</p>
+
+    <div class="code-block" data-code>
+        <div class="code-block-header">
+            <span>App.php — Tutoriel complet</span>
+            <button type="button" class="copy-btn">
+                <span>Copier</span>
+                <span>⧉</span>
+            </button>
+        </div>
+        <div class="code-block-content">
+<pre><code>&lt;?php
+// 1. ACTIVATION (Zéro Config)
+// Le simple fait d'inclure ce fichier initialise la DB et le cache.
+include "vision/vision.php";
+
+// 2. CRÉATION D'UNE CATÉGORIE
+// On stocke des données simples. Vision nous donne un ID unique.
+$catId = Vision_API::create(['nom' => 'Technologie', 'couleur' => 'bleu']);
+echo "Catégorie créée : $catId \n";
+
+// 3. CRÉATION D'UN ARTICLE LIÉ
+// On lie l'article à la catégorie via une relation de niveau 1 (directe).
+$newsId = Vision_API::create(
+    [
+        'titre' => 'Vision v18 en production',
+        'corps' => 'Le tutoriel est enfin disponible !',
+        'vue'   => 0
+    ],
+    [['id' => $catId, 'niveau' => 1]] 
+);
+echo "Article créé : $newsId \n";
+
+// 4. LECTURE ET MISE À JOUR
+// On lit la donnée, on modifie le compteur de vues et on enregistre.
+$article = Vision_API::read($newsId);
+$article['data']['vue']++; 
+Vision_API::update($newsId, $article['data']);
+
+// 5. RECHERCHE (Find)
+// On cherche tous les articles qui ont plus de 0 vue.
+// Le générateur (yield) permet de ne pas saturer la RAM.
+$populaires = Vision_API::find(fn($cell) => 
+    ($cell['data']['vue'] ?? 0) > 0
+);
+
+foreach($populaires as $item) {
+    echo "Top News : " . $item['data']['titre'] . "\n";
+}
+
+// 6. EXPLORATION DU GRAPHE
+// On demande l'article et tout ce qui lui est lié (sa catégorie).
+$graphe = Vision_API::graph($newsId);
+print_r($graphe);
+
+// 7. STATISTIQUES
+// Surveiller la taille de la base de données.
+$stats = Vision_API::stats();
+echo "Total cellules : " . $stats['count'];
+</code></pre>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2 id="conclusion">13. Conclusion</h2>
     <p>Vision est un moteur naturel, simple, stable et prévisible.  
     UniCell fournit l’universalité.  
     Wave fournit la cohérence.  

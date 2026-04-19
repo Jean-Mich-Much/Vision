@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /* vision_wave.php */
 
@@ -48,9 +49,16 @@ public static function sync(): void
 $tmp=self::FILE.'.tmp';
 $json=json_encode(self::$wave,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
 if($json===false)return;
-if(file_put_contents($tmp,$json,LOCK_EX)===false)return;
-chmod($tmp,0664);
-rename($tmp,self::FILE);
+$f = @fopen($tmp, 'wb');
+if (!$f) return;
+if (!flock($f, LOCK_EX)) { fclose($f); return; }
+fwrite($f, $json);
+fflush($f);
+fsync($f);
+flock($f, LOCK_UN);
+fclose($f);
+@chmod($tmp, 0664);
+@rename($tmp, self::FILE);
 }
 }
 

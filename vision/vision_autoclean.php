@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 /* vision_autoclean.php */
 
 final class VisionAutoclean
@@ -18,13 +18,14 @@ self::clean();});
 self::$running=false;}
 
 private static function clean(): void
-{$dir=__DIR__.'/data';
-if(!is_dir($dir))return;
-$files=scandir($dir);
-if(!is_array($files))return;
+{$shards=Vision_UniCell::shards();
+foreach($shards as $dir)
+{$files=scandir($dir);
+if(!is_array($files))continue;
 foreach($files as $f)
 {if($f==='.'||$f==='..')continue;
+if(str_ends_with($f, '.tmp'))continue; // Ne pas toucher aux écritures en cours
 $path=$dir.'/'.$f;
 if(!is_file($path))continue;
-$size=filesize($path);
-if($size===0)unlink($path);}}}
+$size=@filesize($path);
+if($size===0)@unlink($path);}}}}

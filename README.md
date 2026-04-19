@@ -11,6 +11,14 @@
 Vision est un **moteur de données naturel (NDE)**.  
 Un NDE est une évolution des bases de données traditionnelles : il stocke, lit et relie des données comme une base classique, mais **sans SQL**, **sans schéma**, **sans tables**, et **sans structure imposée**.
 
+### ⚡ Activation Immédiate (Zéro Config)
+Vision est conçu pour être "Plug & Play". Il n'y a aucune installation complexe.
+
+```php
+// Une seule ligne active tout le moteur (BD, Cache, Verrous)
+include "vision/vision.php";
+```
+
 Vision repose sur deux fondations :
 
 - **UniCell** - chaque donnée est une cellule autonome stockée dans un fichier `.vr`
@@ -68,9 +76,8 @@ id_unique.vr    → 1 fichier = 1 cellule
 
 VISION1
 ⟪¦<base64(json)>¦⟫
+⟪Σ¦<crc32_checksum>¦⟫
 ⟪⇒¦⇐⟫
-
-
 
 Exemple JSON interne :
 
@@ -87,8 +94,9 @@ json
 }
 
 Propriétés
-écriture atomique (.tmp → rename())
-aucune corruption possible
+écriture atomique (.tmp → fsync → rename())
+vérification d'intégrité par CRC externe (ultra-rapide)
+gestion intelligente de la RAM (Auto-purge à 75%)
 format déterministe
 UTF‑8 strict
 
@@ -134,7 +142,7 @@ Aucune orchestration lourde.
 	 - link	 - créer relation	 - link(string $id, string $targetId, int $niveau): bool
 	 - unlink	 - supprimer relation	 - unlink(string $id, string $targetId): bool
 	 - graph	 - graphe autour d’une cellule	 - graph(string $id): array
-	 - find	 - recherche personnalisée	 - find(callable $filter): array
+	 - find	 - recherche personnalisée	 - find(callable $filter): \Generator
 	 - count	 - nombre total	 - count(): int
 	 - stats	 - statistiques	 - stats(): array
 	 - clean	 - maintenance	 - clean(): void
@@ -200,6 +208,14 @@ Aucune orchestration lourde.
 Vision is a Natural Data Engine (NDE).
 An NDE is an evolution of traditional databases: it stores, reads and links data like a classic DB, but without SQL, without schema, without tables, and without imposed structure.
 
+### ⚡ Immediate Activation (Zero Config)
+Vision is designed to be "Plug & Play". There is no complex installation.
+
+```php
+// A single line activates the entire engine (DB, Cache, Locks)
+include "vision/vision.php";
+```
+
 Vision is built on two foundations:
 UniCell - each piece of data is an autonomous cell stored in a .vr file
 Wave - a minimal global state coordinating the engine
@@ -246,16 +262,17 @@ No prediction. No automatic cascade.
 
 VISION1
 ⟪¦<base64(json)>¦⟫
+⟪Σ¦<crc32_checksum>¦⟫
 ⟪⇒¦⇐⟫
+
 Example JSON:
 
-json
 {
   "id": "20260416_ab12cd34ef56",
   "data": { ... },
   "relations": [
-    {"id": "xxx", "level": 1},
-    {"id": "yyy", "level": 0}
+    {"id": "xxx", "niveau": 1},
+    {"id": "yyy", "niveau": 0}
   ],
   "createdAt": 1713200000,
   "updatedAt": 1713200000
@@ -295,10 +312,10 @@ json
 	 - delete	 - delete a cell	 - delete(string $id): bool
 	 - exists	 - check existence	 - exists(string $id): bool
 	 - relations	 - get relations	 - relations(string $id): array
-	 - link	 - create relation	 - link(string $id, string $targetId, int $level): bool
+	 - link	 - create relation	 - link(string $id, string $targetId, int $niveau): bool
 	 - unlink	 - remove relation	 - unlink(string $id, string $targetId): bool
 	 - graph	 - build graph	 - graph(string $id): array
-	 - find	 - custom search	 - find(callable $filter): array
+	 - find	 - custom search	 - find(callable $filter): \Generator
 	 - count	 - total cells	 - count(): int
 	 - stats	 - global stats	 - stats(): array
 	 - clean	 - maintenance	 - clean(): void
@@ -306,12 +323,12 @@ json
 # 8. Usage Examples
  - Forum : 
 	 - $topic = Vision_API::create(['title' => 'Hello']); 
-	 - $post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'level'=>1]]); 
-	 - $reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'level'=>1]]); 
+	 - $post  = Vision_API::create(['text' => 'Hi'], [['id'=>$topic,'niveau'=>1]]); 
+	 - $reply = Vision_API::create(['text' => 'Thanks'], [['id'=>$post,'niveau'=>1]]); 
 
  - CMS : 
 	 - $page = Vision_API::create(['title' => 'Home']); 
-	 - $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'level'=>1]]); 
+	 - $section = Vision_API::create(['title'=>'Intro'], [['id'=>$page,'niveau'=>1]]); 
 
  - Knowledge Graph : 
 	 - $paris = Vision_API::create(['name'=>'Paris']); 
@@ -320,8 +337,9 @@ json
 
 # 9. Security & Robustness
  - atomic writes
- - no corruption
- - crash‑safe
+ - external CRC integrity check
+ - smart memory protection (75% threshold)
+ - crash‑safe (fsync + rename)
  - non‑blocking lock
  - no automatic cascade
  - no prediction
